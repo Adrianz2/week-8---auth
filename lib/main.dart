@@ -14,12 +14,12 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   runApp(
-    MultiProvider(
+    MultiProvider(  
       providers: [
         ChangeNotifierProvider(create: ((context) => TodoListProvider())),
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
@@ -43,5 +43,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
     );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (context.watch<AuthProvider>().isAuthenticated) {
+      return const TodoPage();
+    } else {
+      return const LoginPage();
+    }
   }
 }
